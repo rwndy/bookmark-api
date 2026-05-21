@@ -20,7 +20,7 @@ func main() {
 	godotenv.Load()
 	cfg := config.Load()
 
-log.Printf("DSN: %s", cfg.DBDsn)
+	log.Printf("DSN: %s", cfg.DBDsn)
 
 	// Database
 	db, err := gorm.Open(postgres.Open(cfg.DBDsn), &gorm.Config{})
@@ -28,17 +28,6 @@ log.Printf("DSN: %s", cfg.DBDsn)
 		log.Fatal("failed to connect database:", err)
 	}
 	log.Println("database connected")
-
-
-// List semua tabel
-var tables []string
-db.Raw("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'").Scan(&tables)
-log.Printf("tables: %v", tables)
-
-// Cek tabel ada atau tidak
-var count int64
-db.Raw("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'users'").Scan(&count)
-log.Printf("users table exists: %v", count > 0)
 
 	// Dependency injection
 	userRepo := repository.NewUserRepository(db)
