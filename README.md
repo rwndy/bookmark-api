@@ -152,7 +152,3 @@ Full OpenAPI 3.0 spec available at [`apispec.json`](./apispec.json). Preview it 
 - API responses follow `{"success": bool, "data": ..., "error": "..."}` format
 - Passwords hashed with bcrypt, never stored in plain text
 - JWT tokens expire after 24 hours
-
-## License
-
-MIT
