@@ -20,8 +20,6 @@ func main() {
 	godotenv.Load()
 	cfg := config.Load()
 
-	log.Printf("DSN: %s", cfg.DBDsn)
-
 	// Database
 	db, err := gorm.Open(postgres.Open(cfg.DBDsn), &gorm.Config{})
 	if err != nil {
