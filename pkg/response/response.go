@@ -3,19 +3,23 @@ package response
 import "github.com/gofiber/fiber/v2"
 
 type Response struct {
-	Success bool        `json:"success"`
-	Data    interface{} `json:"data,omitempty"`
-	Error   string      `json:"error,omitempty"`
+	Data    interface{} `json:"data"`
+	Message string      `json:"message"`
+	Status  int         `json:"status"`
 }
 
-func OK(c *fiber.Ctx, data interface{}) error {
-	return c.JSON(Response{Success: true, Data: data})
+func JSON(c *fiber.Ctx, status int, message string, data interface{}) error {
+	return c.Status(status).JSON(Response{Data: data, Message: message, Status: status})
 }
 
-func Created(c *fiber.Ctx, data interface{}) error {
-	return c.Status(201).JSON(Response{Success: true, Data: data})
+func OK(c *fiber.Ctx, message string, data interface{}) error {
+	return JSON(c, fiber.StatusOK, message, data)
 }
 
-func Fail(c *fiber.Ctx, status int, msg string) error {
-	return c.Status(status).JSON(Response{Success: false, Error: msg})
+func Created(c *fiber.Ctx, message string, data interface{}) error {
+	return JSON(c, fiber.StatusCreated, message, data)
+}
+
+func Fail(c *fiber.Ctx, status int, message string) error {
+	return JSON(c, status, message, nil)
 }

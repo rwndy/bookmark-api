@@ -38,7 +38,7 @@ func (h *BookmarkHandler) Create(c *fiber.Ctx) error {
 		return response.Fail(c, 500, "internal server error")
 	}
 
-	return response.Created(c, bookmark)
+	return response.Created(c, "bookmark created", bookmark)
 }
 
 func (h *BookmarkHandler) List(c *fiber.Ctx) error {
@@ -49,7 +49,7 @@ func (h *BookmarkHandler) List(c *fiber.Ctx) error {
 		return response.Fail(c, 500, "failed to fetch bookmarks")
 	}
 
-	return response.OK(c, bookmarks)
+	return response.OK(c, "bookmarks fetched", bookmarks)
 }
 
 func (h *BookmarkHandler) Update(c *fiber.Ctx) error {
@@ -76,7 +76,7 @@ func (h *BookmarkHandler) Update(c *fiber.Ctx) error {
 		return response.Fail(c, 500, "internal server error")
 	}
 
-	return response.OK(c, bookmark)
+	return response.OK(c, "bookmark updated", bookmark)
 }
 
 func (h *BookmarkHandler) Delete(c *fiber.Ctx) error {

@@ -35,7 +35,7 @@ func (h *AuthHandler) Register(c *fiber.Ctx) error {
 		return response.Fail(c, 500, "internal server error")
 	}
 
-	return response.Created(c, user)
+	return response.Created(c, "user registered", user)
 }
 
 func (h *AuthHandler) Login(c *fiber.Ctx) error {
@@ -56,5 +56,5 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 		return response.Fail(c, 500, "internal server error")
 	}
 
-	return response.OK(c, fiber.Map{"token": token})
+	return response.OK(c, "login successful", fiber.Map{"token": token})
 }
