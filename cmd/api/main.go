@@ -30,8 +30,15 @@ func main() {
 	// Dependency injection
 	userRepo := repository.NewUserRepository(db)
 	bookmarkRepo := repository.NewBookmarkRepository(db)
+	refreshTokenRepo := repository.NewRefreshTokenRepository(db)
 
-	authSvc := service.NewAuthService(userRepo)
+	authSvc := service.NewAuthService(
+		userRepo,
+		refreshTokenRepo,
+		cfg.JWTSecret,
+		cfg.AccessTokenTTL,
+		cfg.RefreshTokenTTL,
+	)
 	bookmarkSvc := service.NewBookmarkService(bookmarkRepo)
 
 	authHandler := handler.NewAuthHandler(authSvc)
@@ -49,6 +56,8 @@ func main() {
 	// Public
 	app.Post("/auth/register", authHandler.Register)
 	app.Post("/auth/login", authHandler.Login)
+	app.Post("/auth/refresh", authHandler.Refresh)
+	app.Post("/auth/logout", authHandler.Logout)
 
 	// Protected
 	api := app.Group("/api", middleware.AuthRequired())
